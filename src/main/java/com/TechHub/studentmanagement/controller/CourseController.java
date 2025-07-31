@@ -28,29 +28,29 @@ public class CourseController {
     @Autowired
     private UserService userService;
 
-    // ✅ Add a new course (open to all for now)
+    // Add a new course which is open to all for now
     @PostMapping("/add")
     public Course addCourse(@RequestBody Course course) {
         return courseRepository.save(course);
     }
 
-    // ✅ Assign course to student — Only TEACHER allowed
+    // Assign course to student  only if teaher allowed
     @PostMapping("/students/{studentId}/courses/{courseId}")
     public ResponseEntity<String> assignCourseToStudent(
             @PathVariable Long studentId,
             @PathVariable Long courseId) {
 
-        // 🔐 Get logged-in user's username
+        //  Get logged-in user's username
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
 
-        // 🔍 Fetch user and check role
+        //  Fetch user and check role
         Optional<User> currentUser = userService.getUserByUsername(username);
         if (currentUser.isEmpty() || !"TEACHER".equalsIgnoreCase(currentUser.get().getRole())) {
             return ResponseEntity.status(403).body("Only TEACHERS can assign courses.");
         }
 
-        // ✅ Proceed with assignment if valid
+        // Proceed with assignment if valid
         Optional<Student> studentOpt = studentRepository.findById(studentId);
         Optional<Course> courseOpt = courseRepository.findById(courseId);
 
@@ -70,13 +70,13 @@ public class CourseController {
         }
     }
 
-    // ✅ Get all available courses
+    // Get all available courses
     @GetMapping("/all")
     public List<Course> getAllCourses() {
         return courseRepository.findAll();
     }
     
- // ✅ Delete course by ID
+ // Delete course by ID
     @DeleteMapping("/{courseId}")
     public ResponseEntity<String> deleteCourse(@PathVariable Long courseId) {
         if (courseRepository.existsById(courseId)) {

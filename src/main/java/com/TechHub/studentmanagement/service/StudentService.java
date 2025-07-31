@@ -44,14 +44,14 @@ public class StudentService {
         studentRepository.deleteById(id);
     }
 
-    // ✅ Get courses student enrolled in
+    // Get courses student enrolled in
     public List<Course> getEnrolledCourses(Long studentId) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new RuntimeException("Student not found"));
         return student.getCourses();
     }
 
-    // ✅ Enroll student only if not already enrolled
+    // Enroll student only if not already enrolled
     public String enrollInCourse(Long studentId, Long courseId) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new RuntimeException("Student not found"));

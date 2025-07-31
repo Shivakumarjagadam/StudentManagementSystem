@@ -16,7 +16,7 @@ public class Course {
     private String description;
 
     @ManyToMany(mappedBy = "courses")
-    @JsonIgnore // 👈 This avoids infinite loop during serialization
+    @JsonIgnore //  This avoids infinite loop during serialization
     private List<Student> students = new ArrayList<>();
 
     // Constructors
@@ -57,7 +57,7 @@ public class Course {
         this.students = students;
     }
     
- // ✅ Add these to help with duplicate check
+ //  Add these to help with duplicate check
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
